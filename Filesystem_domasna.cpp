@@ -31,17 +31,43 @@ bool checkFilename(string filename, Directory &where)
     {
         if(filename==getFullFilename(*where.files[i]))
         {
-            return false; 
+            return true; 
         }
     }
     for(size_t i = 0; i < where.dirs.size(); i++)
     {
         if(filename == where.dirs[i]->name)
         {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
+}
+
+void DirectoryName(Directory &d, Directory &current, string name)
+{
+    if(checkFilename(name, d))
+    {
+        cout << "The name is taken by another directory" << '\n';
+    }
+    else 
+    {
+        current.name = name;
+    }
+}
+
+void FileName(Directory &d, File &f, string name, string ext)
+{
+    string s = name + "." + ext;
+    if(checkFilename(s, d))
+    {
+        cout << "The name is taken by another file" << '\n';
+    }
+    else
+    {
+        f.name = name;
+        f.extension = ext; 
+    }
 }
 
 // 4. DirectorySize function includes the size of child directories
@@ -167,16 +193,8 @@ int main()
     my.files.push_back(&y);
     my.files.push_back(&z);
 
-    string filename = "X.txt";
-    if (checkFilename(filename, my))
-    {
-        cout << "Available" << endl;
-    }
-    else
-    {
-        cout << "Cannot use this name" << endl;
-    }
-
+   File n;
+   FileName(my, n, "X", "txt");
     y.name = "YYY";
 
     Directory child;
